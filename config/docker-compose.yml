@@ -5,7 +5,7 @@ services:
     container_name: clickhouse-01
     hostname: clickhouse-01
     environment:
-      - SERVER_DISPLAY_NAME="cluster_1S_2R node 2"
+      - SERVER_DISPLAY_NAME="cluster_1S_2R node 1"
       - SERVER_REPLICA=01
     networks:
       ant-network:
@@ -103,7 +103,7 @@ services:
       ant-network:
         ipv4_address: 10.20.0.70
   workload:
-    image: "functional_workload:latest" 
+    image: "functional_workload:latest"
     container_name: workload
     hostname: workload
     environment:
