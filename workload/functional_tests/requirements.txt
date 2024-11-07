@@ -8,7 +8,7 @@ cryptography==3.4.8
 #dbus-python==1.2.18
 distro==1.7.0
 docutils==0.17.1
-grpcio==1.47.0
+grpcio==1.53.2
 #gyp==0.1
 httplib2==0.20.2
 idna==3.3
