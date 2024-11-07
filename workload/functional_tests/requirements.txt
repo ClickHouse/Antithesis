@@ -11,7 +11,7 @@ docutils==0.17.1
 grpcio==1.47.0
 #gyp==0.1
 httplib2==0.20.2
-idna==3.3
+idna==3.7
 importlib-metadata==4.6.4
 jeepney==0.7.1
 Jinja2==3.1.3
