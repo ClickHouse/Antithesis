@@ -1,0 +1,124 @@
+services:
+  clickhouse-01:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    user: "101:101"
+    container_name: clickhouse-01
+    hostname: clickhouse-01
+    environment:
+      - SERVER_DISPLAY_NAME="cluster_1S_2R node 2"
+      - SERVER_REPLICA=01
+    networks:
+      ant-network:
+        ipv4_address: 10.20.0.10
+    volumes:
+      - ./volumes/config/config.d:/etc/clickhouse-server/config.d
+      - ./volumes/clickhouse-server/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./volumes/config/users.d:/etc/clickhouse-server/users.d
+      - ./volumes/clickhouse-server/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ./volumes/config/test_files:/etc/clickhouse-server/test_files
+      - ./volumes/config/top_level_domains:/etc/clickhouse-server/top_level_domains
+      - ./volumes/config/test_files/server.crt:/etc/clickhouse-server/server.crt
+      - ./volumes/config/test_files/server.key:/etc/clickhouse-server/server.key
+    cap_add:
+    - CAP_SYS_NICE
+    depends_on:
+      - clickhouse-keeper-01
+      - clickhouse-keeper-02
+      - clickhouse-keeper-03
+  clickhouse-02:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    user: "101:101"
+    container_name: clickhouse-02
+    hostname: clickhouse-02
+    environment:
+      - SERVER_DISPLAY_NAME="cluster_1S_2R node 2"
+      - SERVER_REPLICA=02
+    networks:
+      ant-network:
+        ipv4_address: 10.20.0.20
+    volumes:
+      - ./volumes/config/config.d:/etc/clickhouse-server/config.d
+      - ./volumes/clickhouse-server/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./volumes/config/users.d:/etc/clickhouse-server/users.d
+      - ./volumes/clickhouse-server/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ./volumes/config/test_files:/etc/clickhouse-server/test_files
+      - ./volumes/config/top_level_domains:/etc/clickhouse-server/top_level_domains
+      - ./volumes/config/test_files/server.crt:/etc/clickhouse-server/server.crt
+      - ./volumes/config/test_files/server.key:/etc/clickhouse-server/server.key
+    # ports:
+    #   - "127.0.0.1:8124:8123"
+    #   - "127.0.0.1:9001:9000"
+    cap_add:
+    - CAP_SYS_NICE
+    depends_on:
+      - clickhouse-keeper-01
+      - clickhouse-keeper-02
+      - clickhouse-keeper-03
+  clickhouse-keeper-01:
+    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest}"
+    user: "101:101"
+    container_name: clickhouse-keeper-01
+    hostname: clickhouse-keeper-01
+    environment:
+      - SERVER_NUM=1
+    volumes:
+      - ./volumes/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    networks:
+      ant-network:
+        ipv4_address: 10.20.0.50
+    cap_add:
+    - CAP_SYS_NICE
+    # ports:
+    #     - "127.0.0.1:9181:9181"
+  clickhouse-keeper-02:
+    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest}"
+    user: "101:101"
+    container_name: clickhouse-keeper-02
+    hostname: clickhouse-keeper-02
+    environment:
+      - SERVER_NUM=2
+    volumes:
+      - ./volumes/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    cap_add:
+    - CAP_SYS_NICE
+    # ports:
+    #   - "127.0.0.1:9182:9181"
+    networks:
+      ant-network:
+        ipv4_address: 10.20.0.60
+  clickhouse-keeper-03:
+    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest}"
+    user: "101:101"
+    container_name: clickhouse-keeper-03
+    hostname: clickhouse-keeper-03
+    environment:
+      - SERVER_NUM=3
+    volumes:
+      - ./volumes/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    cap_add:
+    - CAP_SYS_NICE
+    # ports:
+    #   - "127.0.0.1:9183:9181"
+    networks:
+      ant-network:
+        ipv4_address: 10.20.0.70
+  workload:
+    image: "functional_workload:latest" 
+    container_name: workload
+    hostname: workload
+    environment:
+      - CLICKHOUSE_HOST=clickhouse-01 # need to make this randomized
+      - CLICKHOUSE_PORT=9000
+    # volumes: ../../../../../projects/ClickHouse:/ClickHouse
+    cap_add:
+    - CAP_SYS_NICE
+    networks:
+      ant-network:
+        ipv4_address: 10.20.0.80
+networks:
+  ant-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.20.0.0/24
+          gateway: 10.20.0.1
