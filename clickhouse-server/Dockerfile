@@ -46,6 +46,18 @@ ARG single_binary_location_url=""
 
 ARG TARGETARCH
 
+# Sanitizer options for services (clickhouse-server)
+# Set resident memory limit for TSAN to 45GiB (46080MiB) to avoid OOMs in Stress tests
+# and MEMORY_LIMIT_EXCEEDED exceptions in Functional tests (total memory limit in Functional tests is ~55.24 GiB).
+# TSAN will flush shadow memory when reaching this limit.
+# It may cause false-negatives, but it's better than OOM.
+#  max_allocation_size_mb is set to 32GB, so we have much bigger chance to run into memory limit than the limitation of the sanitizers
+ENV TSAN_OPTIONS='verbosity=1000 halt_on_error=1 abort_on_error=1 history_size=7 memory_limit_mb=46080 second_deadlock_stack=1 max_allocation_size_mb=32768'
+ENV UBSAN_OPTIONS='print_stacktrace=1 max_allocation_size_mb=32768'
+ENV MSAN_OPTIONS='abort_on_error=1 poison_in_dtor=1 max_allocation_size_mb=32768'
+ENV LSAN_OPTIONS='suppressions=/usr/share/clickhouse-test/config/lsan_suppressions.txt max_allocation_size_mb=32768'
+ENV ASAN_OPTIONS='halt_on_error=1 abort_on_error=1'
+
 # install from direct URL
 RUN if [ -n "${DIRECT_DOWNLOAD_URLS}" ]; then \
         echo "installing from custom predefined urls with deb packages: ${DIRECT_DOWNLOAD_URLS}" \
