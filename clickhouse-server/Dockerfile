@@ -58,18 +58,6 @@ ENV MSAN_OPTIONS='abort_on_error=1 poison_in_dtor=1 max_allocation_size_mb=32768
 ENV LSAN_OPTIONS='suppressions=/usr/share/clickhouse-test/config/lsan_suppressions.txt max_allocation_size_mb=32768'
 ENV ASAN_OPTIONS='halt_on_error=1 abort_on_error=1'
 
-# install from direct URL
-RUN if [ -n "${DIRECT_DOWNLOAD_URLS}" ]; then \
-        echo "installing from custom predefined urls with deb packages: ${DIRECT_DOWNLOAD_URLS}" \
-        && rm -rf /tmp/clickhouse_debs \
-        && mkdir -p /tmp/clickhouse_debs \
-        && for url in $DIRECT_DOWNLOAD_URLS; do \
-            wget --progress=bar:force:noscroll "$url" -P /tmp/clickhouse_debs || exit 1 \
-        ; done \
-        && dpkg -i /tmp/clickhouse_debs/*.deb \
-        && rm -rf /tmp/* ; \
-    fi
-
 # install from a web location with deb packages
 RUN arch="${TARGETARCH:-amd64}" \
     && if [ -n "${deb_location_url}" ]; then \
@@ -82,17 +70,6 @@ RUN arch="${TARGETARCH:-amd64}" \
             || exit 1 \
         ; done \
         && dpkg -i /tmp/clickhouse_debs/*.deb \
-        && rm -rf /tmp/* ; \
-    fi
-
-# install from a single binary
-RUN if [ -n "${single_binary_location_url}" ]; then \
-        echo "installing from single binary url: ${single_binary_location_url}" \
-        && rm -rf /tmp/clickhouse_binary \
-        && mkdir -p /tmp/clickhouse_binary \
-        && wget --progress=bar:force:noscroll "${single_binary_location_url}" -O /tmp/clickhouse_binary/clickhouse \
-        && chmod +x /tmp/clickhouse_binary/clickhouse \
-        && /tmp/clickhouse_binary/clickhouse install --user "clickhouse" --group "clickhouse" \
         && rm -rf /tmp/* ; \
     fi
 

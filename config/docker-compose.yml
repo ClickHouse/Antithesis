@@ -1,6 +1,6 @@
 services:
   clickhouse-01:
-    image: "clickhouse-server${CHFLAVOR:-}:${CHVER:-latest}"
+    image: "clickhouse-server${CH_FLAVOR:-}:${CH_VERSION:-latest}"
     user: "101:101"
     container_name: clickhouse-01
     hostname: clickhouse-01
@@ -26,7 +26,7 @@ services:
       - clickhouse-keeper-02
       - clickhouse-keeper-03
   clickhouse-02:
-    image: "clickhouse-server${CHFLAVOR:-}:${CHVER:-latest}"
+    image: "clickhouse-server${CH_FLAVOR:-}:${CH_VERSION:-latest}"
     user: "101:101"
     container_name: clickhouse-02
     hostname: clickhouse-02
@@ -55,7 +55,7 @@ services:
       - clickhouse-keeper-02
       - clickhouse-keeper-03
   clickhouse-keeper-01:
-    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest}"
+    image: "clickhouse-keeper:${CH_VERSION:-latest}"
     user: "101:101"
     container_name: clickhouse-keeper-01
     hostname: clickhouse-keeper-01
@@ -71,7 +71,7 @@ services:
     # ports:
     #     - "127.0.0.1:9181:9181"
   clickhouse-keeper-02:
-    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest}"
+    image: "clickhouse-keeper:${CH_VERSION:-latest}"
     user: "101:101"
     container_name: clickhouse-keeper-02
     hostname: clickhouse-keeper-02
@@ -87,7 +87,7 @@ services:
       ant-network:
         ipv4_address: 10.20.0.60
   clickhouse-keeper-03:
-    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest}"
+    image: "clickhouse-keeper:${CH_VERSION:-latest}"
     user: "101:101"
     container_name: clickhouse-keeper-03
     hostname: clickhouse-keeper-03

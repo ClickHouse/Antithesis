@@ -2,11 +2,11 @@
 
 # Sanitizer options for current shell
 # (but w/o verbosity for TSAN, otherwise test.reference will not match)
-ENV TSAN_OPTIONS='halt_on_error=1 abort_on_error=1 history_size=7 memory_limit_mb=46080 second_deadlock_stack=1 max_allocation_size_mb=32768'
-ENV UBSAN_OPTIONS='print_stacktrace=1 max_allocation_size_mb=32768'
-ENV MSAN_OPTIONS='abort_on_error=1 poison_in_dtor=1 max_allocation_size_mb=32768'
-ENV LSAN_OPTIONS='max_allocation_size_mb=32768'
-ENV ASAN_OPTIONS='halt_on_error=1 abort_on_error=1'
+export TSAN_OPTIONS='halt_on_error=1 abort_on_error=1 history_size=7 memory_limit_mb=46080 second_deadlock_stack=1 max_allocation_size_mb=32768'
+export UBSAN_OPTIONS='print_stacktrace=1 max_allocation_size_mb=32768'
+export MSAN_OPTIONS='abort_on_error=1 poison_in_dtor=1 max_allocation_size_mb=32768'
+export LSAN_OPTIONS='max_allocation_size_mb=32768'
+export ASAN_OPTIONS='halt_on_error=1 abort_on_error=1'
 
 echo "waiting for clickhouse server to start"
 
