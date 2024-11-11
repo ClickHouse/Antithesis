@@ -1,6 +1,6 @@
 services:
   clickhouse-01:
-    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    image: "clickhouse-server${CHFLAVOR:-}:${CHVER:-latest}"
     user: "101:101"
     container_name: clickhouse-01
     hostname: clickhouse-01
@@ -26,7 +26,7 @@ services:
       - clickhouse-keeper-02
       - clickhouse-keeper-03
   clickhouse-02:
-    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    image: "clickhouse-server${CHFLAVOR:-}:${CHVER:-latest}"
     user: "101:101"
     container_name: clickhouse-02
     hostname: clickhouse-02
