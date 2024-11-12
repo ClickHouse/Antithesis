@@ -14,7 +14,14 @@ echo "waiting for clickhouse server to start"
 ELAPSED=0
 started=$(mktemp)
 echo "False" > $started
-until clickhouse-client --query "SELECT 1" && echo "True" > $started || [ $ELAPSED -eq 100 ]
+
+until clickhouse-client --host clickhouse-01 --query "SELECT 1" && echo "True" > $started || [ $ELAPSED -eq 100 ]
+do
+  sleep 1
+  (( ELAPSED++ ))
+done
+
+until clickhouse-client --host clickhouse-02 --query "SELECT 1" && echo "True" > $started || [ $ELAPSED -eq 100 ]
 do
   sleep 1
   (( ELAPSED++ ))
@@ -22,9 +29,9 @@ done
 
 if [[ $(cat $started) == "True" ]]
 then
-    echo "Clickhouse server started!"
+    echo "Clickhouse servers started!"
 else
-    echo "Clickhouse server failed to start after $ELAPSED seconds"
+    echo "Clickhouse servers failed to start after $ELAPSED seconds"
     exit 1
 fi
 
