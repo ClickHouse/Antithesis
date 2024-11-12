@@ -13,7 +13,7 @@
             <access_management>1</access_management>
             <profile>default</profile>
             <networks>
-                <ip>::/0</ip>
+                <ip>127.0.0.1/0</ip>
             </networks>
             <quota>default</quota>
             <access_management>1</access_management>
