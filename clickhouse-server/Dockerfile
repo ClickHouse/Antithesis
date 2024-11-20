@@ -26,6 +26,10 @@ RUN sed -i "s|http://archive.ubuntu.com|${apt_archive}|g" /etc/apt/sources.list 
         wget \
     && rm -rf /var/lib/apt/lists/* /var/cache/debconf /tmp/*
 
+# Requirements for LLVM
+RUN apt update && apt install lsb-release software-properties-common -y
+RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+
 ARG REPO_CHANNEL="stable"
 ARG REPOSITORY="deb [signed-by=/usr/share/keyrings/clickhouse-keyring.gpg] https://packages.clickhouse.com/deb ${REPO_CHANNEL} main"
 ARG VERSION="24.10.1.2812"
