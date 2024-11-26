@@ -1,10 +1,10 @@
 flavor ?=
 image_suffix = $(if $(flavor),-$(flavor))
 package_suffix = $(if $(flavor),_$(flavor),_release)
-version ?= 24.11.1.1370
+version ?= 24.12.1.315
 version_suffix = $(if $(flavor),%2B$(flavor))
 full_version = $(version)$(version_suffix)
-url = https://s3.amazonaws.com/clickhouse-builds/PRs/71635/f2d6b1db7fb8b8eee52e2a33ce6f88648fe1c863/package$(package_suffix)
+url = https://s3.amazonaws.com/clickhouse-builds/24.12/37cd1623970ac864fb00d999820f8d61be057024/package$(package_suffix)
 docker_registry = us-central1-docker.pkg.dev/molten-verve-216720/clickhouse-repository
 
 # Make sure to disable ASLR when generating the TSAN flavor. Otherwise, clickhouse-server will throw
