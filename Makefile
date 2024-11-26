@@ -67,7 +67,7 @@ build-workload: ## Build the workload image
 
 tag-workload-latest: build-workload ## Tag the workload image as the latest
 	docker tag functional_workload:$(version) functional_workload:latest
-	docker tag functional_workload:$(version) $(docker_registry)/functional_workload:$(version)
+	docker tag functional_workload:$(version) $(docker_registry)/functional_workload:latest
 
 push-workload: build-workload ## Push the workload image
 	docker push $(docker_registry)/functional_workload:$(version)
