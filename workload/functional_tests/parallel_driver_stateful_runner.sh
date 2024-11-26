@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /.e/bin/activate
+
 # shellcheck disable=SC1091
 source /scripts/setup_export_logs.sh
 set -e -x

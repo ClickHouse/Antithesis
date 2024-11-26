@@ -21,6 +21,7 @@ services:
       - ./volumes/config/test_files/server.key:/etc/clickhouse-server/server.key
     cap_add:
     - CAP_SYS_NICE
+    - CAP_SYS_PTRACE
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -50,6 +51,7 @@ services:
     #   - "127.0.0.1:9001:9000"
     cap_add:
     - CAP_SYS_NICE
+    - CAP_SYS_PTRACE
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -68,6 +70,7 @@ services:
         ipv4_address: 10.20.0.50
     cap_add:
     - CAP_SYS_NICE
+    - CAP_SYS_PTRACE
     # ports:
     #     - "127.0.0.1:9181:9181"
   clickhouse-keeper-02:
@@ -81,6 +84,7 @@ services:
       - ./volumes/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
     cap_add:
     - CAP_SYS_NICE
+    - CAP_SYS_PTRACE
     # ports:
     #   - "127.0.0.1:9182:9181"
     networks:
@@ -97,6 +101,7 @@ services:
       - ./volumes/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
     cap_add:
     - CAP_SYS_NICE
+    - CAP_SYS_PTRACE
     # ports:
     #   - "127.0.0.1:9183:9181"
     networks:
@@ -112,6 +117,7 @@ services:
     # volumes: ../../../../../projects/ClickHouse:/ClickHouse
     cap_add:
     - CAP_SYS_NICE
+    - CAP_SYS_PTRACE
     networks:
       ant-network:
         ipv4_address: 10.20.0.80

@@ -1,9 +1,12 @@
 FROM docker.io/clickhouse/clickhouse-server:latest
-RUN apt update && apt install -y python3 zip git curl expect mysql-client python3-pip
+RUN apt update && apt install -y python3 python3-venv zip git curl expect mysql-client python3-pip
+
+# gdb and lldb
+RUN apt update && apt install gdb lldb -y
 
 COPY requirements.txt /
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir -r /requirements.txt
+RUN python3 -m venv /.e && bash -c "source /.e/bin/activate && pip3 install --no-cache-dir -r /requirements.txt"
 
 # this folder is from the clickhouse source code
 COPY /tests /tests

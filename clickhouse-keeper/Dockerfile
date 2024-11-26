@@ -59,6 +59,9 @@ ARG TARGETARCH
 
 RUN apk add dpkg
 
+# gdb and lldb
+RUN apk add gdb lldb
+
 RUN arch=${TARGETARCH:-amd64} \
     && cd /tmp && rm -f /tmp/*tgz && rm -f /tmp/*tgz.sha512 |: \
     && if [ -n "${DIRECT_DOWNLOAD_URLS}" ]; then \
