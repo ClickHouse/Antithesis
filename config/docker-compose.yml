@@ -22,6 +22,8 @@ services:
     cap_add:
     - CAP_SYS_NICE
     - CAP_SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -52,6 +54,8 @@ services:
     cap_add:
     - CAP_SYS_NICE
     - CAP_SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -71,6 +75,8 @@ services:
     cap_add:
     - CAP_SYS_NICE
     - CAP_SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
     # ports:
     #     - "127.0.0.1:9181:9181"
   clickhouse-keeper-02:
@@ -85,6 +91,8 @@ services:
     cap_add:
     - CAP_SYS_NICE
     - CAP_SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
     # ports:
     #   - "127.0.0.1:9182:9181"
     networks:
@@ -102,6 +110,8 @@ services:
     cap_add:
     - CAP_SYS_NICE
     - CAP_SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
     # ports:
     #   - "127.0.0.1:9183:9181"
     networks:
@@ -118,6 +128,8 @@ services:
     cap_add:
     - CAP_SYS_NICE
     - CAP_SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
     networks:
       ant-network:
         ipv4_address: 10.20.0.80
